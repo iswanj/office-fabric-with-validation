@@ -3,6 +3,7 @@ import "./App.css";
 
 import Button from "./components/Button";
 import Input from "./components/InputField";
+import SelectField from "./components/SelectField";
 import Textarea from "./components/TextareaField";
 
 import { Container, H1, Header, Wrapper } from "./styles";
@@ -11,14 +12,23 @@ interface Istate {
   form: {
     firstname: string;
     address: string;
+    occupation: string;
   };
 }
+
+const occupationList = [
+  { label: "Software Engineer", value: "softwareengineer" },
+  { label: "UI Engineer", value: "uiengineer" },
+  { label: "QA Engineer", value: "qaengineer" },
+  { label: "Systems Engineer", value: "systemsengineer" }
+];
 
 class App extends React.Component<{}, Istate> {
   public state = {
     form: {
       firstname: "",
-      address: ""
+      address: "",
+      occupation: ""
     }
   };
   public render() {
@@ -42,6 +52,14 @@ class App extends React.Component<{}, Istate> {
             type="text"
             name="address"
             value={form.address}
+            onChange={this.fieldChangeHandler}
+          />
+          <SelectField
+            label="Occupation"
+            type="text"
+            name="occupation"
+            data={occupationList}
+            value={form.occupation}
             onChange={this.fieldChangeHandler}
           />
           <Button>Submit</Button>
