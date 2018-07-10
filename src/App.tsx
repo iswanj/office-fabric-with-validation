@@ -73,11 +73,15 @@ class App extends React.Component<{}, Istate> {
             formData={form}
             onChange={this.fieldChangeHandler}
           />
-          <Button>Submit</Button>
+          <Button onClick={this.handleFormSubmit}>Submit</Button>
         </Container>
       </Wrapper>
     );
   }
+
+  private handleFormSubmit = () => {
+    console.log("Called handle submit");
+  };
 
   private fieldChangeHandler = (name: string, value: string) => {
     this.setState(

@@ -3,6 +3,7 @@ import { Button } from "./styles";
 
 interface InterfaceButton {
   children: any;
+  onClick: () => void;
 }
 
 export default class DefaultButton extends React.Component<InterfaceButton> {
