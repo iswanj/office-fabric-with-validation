@@ -1,0 +1,66 @@
+{
+  "name": "user",
+  "plural": "users",
+  "label": "User",
+  "fields": {
+    "id": {
+      "name": "id",
+      "label": "ID",
+      "type": "string",
+      "length": [
+        3,
+        50
+      ],
+      "required": true,
+      "editable": false,
+      "system": true
+    },
+    "firstName": {
+      "name": "firstName",
+      "label": "First Name",
+      "required": true,
+      "type": "string"
+    },
+    "lastName": {
+      "name": "lastName",
+      "label": "Last Name",
+      "required": true,
+      "type": "string"
+    },
+    "address": {
+      "name": "address",
+      "label": "Address",
+      "length": [
+        0,
+        300
+      ],
+      "type": "string"
+    },
+    "occupation": {
+      "name": "occupation",
+      "label": "Occupation",
+      "type": "enum",
+      "enum": {
+        "values": [
+          {
+            "value": "uiengineer",
+            "label": "UI Engineer"
+          },
+          {
+            "value": "softwareengineer",
+            "label": "Software Engineer"
+          },
+          {
+            "value": "qaengineer",
+            "label": "QA Engineer"
+          },
+          {
+            "value": "sysengineer",
+            "label": "Systems Engineer"
+          }
+        ]
+      },
+      "required": true
+    }
+  }
+}

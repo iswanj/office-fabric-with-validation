@@ -2,18 +2,20 @@ import * as React from "react";
 import "./App.css";
 
 import Button from "./components/Button";
-import Input from "./components/InputField";
-import SelectField from "./components/SelectField";
-import Textarea from "./components/TextareaField";
+import FormField from "./components/FormField";
+
+import model from "./schema.json";
 
 import { Container, H1, Header, Wrapper } from "./styles";
 
 interface Istate {
   form: {
-    firstname: string;
+    firstName: string;
+    lastName: string;
     address: string;
     occupation: string;
   };
+  error: object;
 }
 
 const occupationList = [
@@ -26,40 +28,49 @@ const occupationList = [
 class App extends React.Component<{}, Istate> {
   public state = {
     form: {
-      firstname: "",
+      firstName: "",
+      lastName: "",
       address: "",
       occupation: ""
-    }
+    },
+    error: {}
   };
   public render() {
-    const { form } = this.state;
+    const { form, error } = this.state;
+    const userFields = model.fields;
     return (
       <Wrapper>
         <Header>
           <H1>Schema Based Form Validation</H1>
         </Header>
         <Container>
-          <Input
-            label="First Name"
-            type="text"
+          <FormField
             placeholder="E.g. Patric"
-            name="firstname"
-            value={form.firstname}
+            schema={userFields.firstName}
+            error={error}
+            formData={form}
             onChange={this.fieldChangeHandler}
           />
-          <Textarea
-            label="Address"
-            type="text"
-            name="address"
-            value={form.address}
+          <FormField
+            placeholder="E.g. Jane"
+            schema={userFields.lastName}
+            error={error}
+            formData={form}
             onChange={this.fieldChangeHandler}
           />
-          <SelectField
-            label="Occupation"
-            type="text"
-            name="occupation"
+          <FormField
+            schema={userFields.address}
+            error={error}
+            formData={form}
+            elementType="textarea"
+            onChange={this.fieldChangeHandler}
+          />
+          <FormField
+            placeholder="What's your Occupation?"
+            schema={userFields.occupation}
+            error={error}
             data={occupationList}
-            value={form.occupation}
+            formData={form}
             onChange={this.fieldChangeHandler}
           />
           <Button>Submit</Button>
