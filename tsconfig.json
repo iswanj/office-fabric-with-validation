@@ -25,6 +25,8 @@
     "acceptance-tests",
     "webpack",
     "jest",
+    "src/__tests__",
+    "coverage",
     "src/setupTests.ts"
   ]
 }
