@@ -33,6 +33,8 @@ class App extends React.Component<{}, Istate> {
       firstName: "",
       lastName: "",
       address: "",
+      username: "",
+      email: "",
       occupation: ""
     },
     formError: {}
@@ -117,14 +119,24 @@ class App extends React.Component<{}, Istate> {
   };
 
   private fieldChangeHandler = (name: string, value: string) => {
+    const { formError } = this.state;
     const validateStatus = validate(userSchema, {
       [name]: value
     });
 
+    const getErrorState = () => {
+      if (validateStatus[name]) {
+        return { ...formError, [name]: validateStatus[name] };
+      } else {
+        const { [name]: _, ...restErrors } = formError;
+        return restErrors;
+      }
+    };
+
     this.setState(
       {
         form: { ...this.state.form, [name]: value },
-        formError: validateStatus[name] ? { [name]: validateStatus[name] } : {}
+        formError: getErrorState()
       },
       () => {
         console.log(this.state);
