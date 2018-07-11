@@ -42,7 +42,7 @@ export default class InputField extends React.Component<IinputProps> {
 
   private renderEmptyOption = (placeholder: string = "Select a one Item") => {
     return (
-      <option style={{ color: "#888" }} value="0" key="0">
+      <option style={{ color: "#888" }} value="" key="0">
         {placeholder}
       </option>
     );
