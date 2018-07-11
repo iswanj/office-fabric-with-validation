@@ -11,7 +11,7 @@ interface IschemaObject {
   fields: Array<{}>;
 }
 
-export const validate = (schema: IschemaObject, data: object, lang: string): object => {
+export const validate = (schema: IschemaObject, data: object): object => {
   const fields = Object.keys(schema.fields);
   return fields.reduce((errorObject, fieldName) => {
     const fieldDef = schema.fields[fieldName];
@@ -22,11 +22,6 @@ export const validate = (schema: IschemaObject, data: object, lang: string): obj
     }
     // if data object does not contain a value for a required field submit errors
     if (fieldDef.type !== "boolean" && fieldDef.required && !value) {
-      if (fieldDef.multi_lang) {
-        if (data[`${fieldName}_${lang}`]) {
-          return errorObject;
-        }
-      }
       const errMsg = "Mandatory field, cannot be left empty";
       return setError(errorObject, fieldName, errMsg);
     }
@@ -95,12 +90,7 @@ export const validate = (schema: IschemaObject, data: object, lang: string): obj
       const lengthDef = fieldDef.length.slice();
       if (valueLength < lengthDef[0] || valueLength > lengthDef[1]) {
         // error = "[" + name + "] " + errlabel + fieldDef.length.join('-') + " " + crlabel;
-        let errMsg = `Should have length between ${fieldDef.length.join("-")} characters`;
-        if (lang === "en") {
-          errMsg = `Should have length between ${lengthDef[0]} to ${lengthDef[1]} characters`;
-        } else if (lang === "si") {
-          errMsg = `Characters ${lengthDef[0]} - ${lengthDef[1]} Should have length between`;
-        }
+        const errMsg = `Should have length between ${fieldDef.length.join("-")} characters`;
         return setError(errorObject, fieldName, errMsg);
       }
     }

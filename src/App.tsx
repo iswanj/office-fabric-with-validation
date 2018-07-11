@@ -4,9 +4,11 @@ import "./App.css";
 import Button from "./components/Button";
 import FormField from "./components/FormField";
 
-import model from "./schema.json";
+import userSchema from "./schema.json";
 
 import { Container, H1, Header, Wrapper } from "./styles";
+
+import { validate } from "./util/validator";
 
 interface Istate {
   form: {
@@ -15,7 +17,7 @@ interface Istate {
     address: string;
     occupation: string;
   };
-  error: object;
+  formError: object;
 }
 
 const occupationList = [
@@ -33,11 +35,11 @@ class App extends React.Component<{}, Istate> {
       address: "",
       occupation: ""
     },
-    error: {}
+    formError: {}
   };
   public render() {
-    const { form, error } = this.state;
-    const userFields = model.fields;
+    const { form, formError } = this.state;
+    const userFields = userSchema.fields;
     return (
       <Wrapper>
         <Header>
@@ -47,20 +49,34 @@ class App extends React.Component<{}, Istate> {
           <FormField
             placeholder="E.g. Patric"
             schema={userFields.firstName}
-            error={error}
+            error={formError}
             formData={form}
             onChange={this.fieldChangeHandler}
           />
           <FormField
             placeholder="E.g. Jane"
             schema={userFields.lastName}
-            error={error}
+            error={formError}
+            formData={form}
+            onChange={this.fieldChangeHandler}
+          />
+          <FormField
+            placeholder="E.g. patricJ"
+            schema={userFields.username}
+            error={formError}
+            formData={form}
+            onChange={this.fieldChangeHandler}
+          />
+          <FormField
+            placeholder="E.g. patric@gmail.com"
+            schema={userFields.email}
+            error={formError}
             formData={form}
             onChange={this.fieldChangeHandler}
           />
           <FormField
             schema={userFields.address}
-            error={error}
+            error={formError}
             formData={form}
             elementType="textarea"
             onChange={this.fieldChangeHandler}
@@ -68,8 +84,15 @@ class App extends React.Component<{}, Istate> {
           <FormField
             placeholder="What's your Occupation?"
             schema={userFields.occupation}
-            error={error}
+            error={formError}
             data={occupationList}
+            formData={form}
+            onChange={this.fieldChangeHandler}
+          />
+          <FormField
+            placeholder="What's your age?"
+            schema={userFields.gender}
+            error={formError}
             formData={form}
             onChange={this.fieldChangeHandler}
           />
@@ -81,6 +104,15 @@ class App extends React.Component<{}, Istate> {
 
   private handleFormSubmit = () => {
     console.log("Called handle submit");
+
+    const { form } = this.state;
+    const validateStatus = validate(userSchema, form);
+    this.setState({
+      formError: validateStatus
+    });
+    if (Object.keys(validateStatus).length === 0 && validateStatus.constructor === Object) {
+      console.log("passed form validation");
+    }
   };
 
   private fieldChangeHandler = (name: string, value: string) => {
