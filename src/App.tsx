@@ -39,6 +39,7 @@ class App extends React.Component<{}, Istate> {
   };
   public render() {
     const { form, formError } = this.state;
+    console.log("userSchema---", userSchema);
     const userFields = userSchema.fields;
     return (
       <Wrapper>
