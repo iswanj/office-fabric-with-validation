@@ -116,9 +116,14 @@ class App extends React.Component<{}, Istate> {
   };
 
   private fieldChangeHandler = (name: string, value: string) => {
+    const validateStatus = validate(userSchema, {
+      [name]: value
+    });
+
     this.setState(
       {
-        form: { ...this.state.form, [name]: value }
+        form: { ...this.state.form, [name]: value },
+        formError: validateStatus[name] ? { [name]: validateStatus[name] } : {}
       },
       () => {
         console.log(this.state);
