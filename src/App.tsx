@@ -4,7 +4,7 @@ import "./App.css";
 import Button from "./components/Button";
 import FormField from "./components/FormField";
 
-import userSchema from "./schema.json";
+const userSchema = require("./schema.json"); // tslint:disable-line
 
 import { Container, H1, Header, Wrapper } from "./styles";
 
@@ -41,7 +41,6 @@ class App extends React.Component<{}, Istate> {
   };
   public render() {
     const { form, formError } = this.state;
-    console.log("userSchema---", userSchema);
     const userFields = userSchema.fields;
     return (
       <Wrapper>
