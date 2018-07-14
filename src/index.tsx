@@ -6,6 +6,11 @@ import registerServiceWorker from "./registerServiceWorker";
 
 const rootEl = document.getElementById("root") as HTMLElement;
 
+import { initializeIcons } from "@uifabric/icons";
+
+// Register icons and pull the fonts from the default SharePoint cdn:
+initializeIcons();
+
 ReactDOM.render(<App />, rootEl);
 registerServiceWorker();
 

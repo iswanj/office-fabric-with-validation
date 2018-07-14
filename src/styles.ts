@@ -23,3 +23,10 @@ export const Container = styled.section`
   width: 500px;
   flex-direction: column;
 `;
+
+export const ButtonContainer = styled.div`
+  padding: 1em 0;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+`;

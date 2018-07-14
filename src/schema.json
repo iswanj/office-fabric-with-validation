@@ -68,20 +68,20 @@
       "enum": {
         "values": [
           {
-            "value": "uiengineer",
-            "label": "UI Engineer"
+            "key": "uiengineer",
+            "text": "UI Engineer"
           },
           {
-            "value": "softwareengineer",
-            "label": "Software Engineer"
+            "key": "softwareengineer",
+            "text": "Software Engineer"
           },
           {
-            "value": "qaengineer",
-            "label": "QA Engineer"
+            "key": "qaengineer",
+            "text": "QA Engineer"
           },
           {
-            "value": "sysengineer",
-            "label": "Systems Engineer"
+            "key": "sysengineer",
+            "text": "Systems Engineer"
           }
         ]
       },
@@ -94,14 +94,16 @@
       "enum": {
         "values": [
           {
-            "value": "male",
-            "name": "male",
-            "label": "Male"
+            "key": "0",
+            "text": "None"
           },
           {
-            "value": "female",
-            "name": "female",
-            "label": "Female"
+            "key": "male",
+            "text": "Male"
+          },
+          {
+            "key": "female",
+            "text": "Female"
           }
         ]
       }

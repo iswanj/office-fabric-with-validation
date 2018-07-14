@@ -1,9 +1,9 @@
 import * as React from "react";
 
-// imports components
-import InputField from "../InputField";
-import Select from "../SelectField";
-import Textarea from "../TextareaField";
+import { Dropdown } from "office-ui-fabric-react/lib/Dropdown";
+import { TextField } from "office-ui-fabric-react/lib/TextField";
+
+import { Wrapper } from "./styles";
 
 interface IFormFieldProps {
   schema: {
@@ -19,13 +19,14 @@ interface IFormFieldProps {
       }>;
     };
   };
+  multiline?: boolean;
+  placeHolder?: string;
   elementType?: string;
-  placeholder?: string;
-  data?: Array<{
-    label: string;
-    value: string;
-    name?: string;
+  options?: Array<{
+    text: string;
+    key: string;
   }>;
+  rows?: number;
   formData: any;
   error: object;
   onChange: (name: string, value: string) => void;
@@ -33,14 +34,18 @@ interface IFormFieldProps {
 
 export default class FormField extends React.Component<IFormFieldProps> {
   private elementTypeMap = {
-    string: InputField,
-    email: InputField,
-    textarea: Textarea,
-    enum: Select // should implement radio button component if enum data length === 2
+    string: TextField,
+    email: TextField,
+    textarea: TextField,
+    enum: Dropdown // should implement radio button component if enum data length === 2
   };
 
   public render() {
-    const { schema, elementType, error, formData, data, ...restProps } = this.props;
+    return <Wrapper>{this.renderInputField()}</Wrapper>;
+  }
+
+  private renderInputField = () => {
+    const { schema, elementType, error, formData, options, onChange, ...restProps } = this.props;
     let ElementName = this.elementTypeMap[schema.type];
     if (elementType) {
       ElementName = this.elementTypeMap[elementType];
@@ -48,16 +53,17 @@ export default class FormField extends React.Component<IFormFieldProps> {
 
     switch (schema.type) {
       case "enum":
-        const elementData = data || schema.enum.values || [];
+        const elementData = options || schema.enum.values || [];
         return (
           <ElementName
             {...restProps}
-            value={formData[schema.name]}
+            selectedKey={formData[schema.name]}
             name={schema.name}
             label={schema.label}
-            error={error[schema.name]}
+            errorMessage={error[schema.name]}
             required={schema.required}
-            data={elementData}
+            options={elementData}
+            onChanged={this.fieldChangeHandler}
           />
         );
         break;
@@ -68,11 +74,23 @@ export default class FormField extends React.Component<IFormFieldProps> {
             value={formData[schema.name]}
             name={schema.name}
             label={schema.label}
-            error={error[schema.name]}
+            errorMessage={error[schema.name]}
             required={schema.required}
+            onChanged={this.fieldChangeHandler}
           />
         );
         break;
     }
-  }
+  };
+
+  private fieldChangeHandler = (value: any) => {
+    const { schema, onChange } = this.props;
+    let inputFieldValue;
+    if (typeof value === "object") {
+      inputFieldValue = value.key;
+    } else {
+      inputFieldValue = value;
+    }
+    onChange(schema.name, inputFieldValue);
+  };
 }

@@ -1,10 +1,12 @@
 {
-  "name": "sim-ui-kit",
+  "name": "office-fabric-with-validation",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://iswanj.github.io/simple-form-ui-kit/",
+  "homepage": "https://iswanj.github.io/office-fabric-with-validation/",
   "dependencies": {
+    "@types/prop-types": "^15.5.3",
     "gh-pages": "^1.2.0",
+    "office-ui-fabric-react": "^6.35.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts-ts": "2.16.0",

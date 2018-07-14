@@ -69,8 +69,8 @@ export const validate = (schema: IschemaObject, data: object): object => {
     // Enum field validation
     if (value && fieldDef.type === "enum") {
       const values = fieldDef.enum.values;
-      const validValues = values.map((enumObject: { value: any }) => {
-        return enumObject.value;
+      const validValues = values.map((enumObject: { key: any }) => {
+        return enumObject.key;
       });
       if (validValues.indexOf(value) === -1) {
         const errMsg = "Select a valid value";

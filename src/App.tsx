@@ -1,31 +1,29 @@
 import * as React from "react";
 import "./App.css";
 
-import Button from "./components/Button";
 import FormField from "./components/FormField";
 
 const userSchema = require("./schema.json"); // tslint:disable-line
 
-import { Container, H1, Header, Wrapper } from "./styles";
+import { ButtonContainer, Container, H1, Header, Wrapper } from "./styles";
 
 import { validate } from "./util/validator";
+
+// fabric components
+import { PrimaryButton } from "office-ui-fabric-react/lib/Button";
 
 interface Istate {
   form: {
     firstName: string;
     lastName: string;
     address: string;
+    username: string;
+    email: string;
     occupation: string;
+    gender: string;
   };
   formError: object;
 }
-
-const occupationList = [
-  { label: "Software Engineer", value: "softwareengineer" },
-  { label: "UI Engineer", value: "uiengineer" },
-  { label: "QA Engineer", value: "qaengineer" },
-  { label: "Systems Engineer", value: "systemsengineer" }
-];
 
 class App extends React.Component<{}, Istate> {
   public state = {
@@ -35,7 +33,8 @@ class App extends React.Component<{}, Istate> {
       address: "",
       username: "",
       email: "",
-      occupation: ""
+      occupation: "",
+      gender: ""
     },
     formError: {}
   };
@@ -43,34 +42,34 @@ class App extends React.Component<{}, Istate> {
     const { form, formError } = this.state;
     const userFields = userSchema.fields;
     return (
-      <Wrapper>
+      <Wrapper className="ms-Fabric">
         <Header>
           <H1>Schema Based Form Validation</H1>
         </Header>
         <Container>
           <FormField
-            placeholder="E.g. Patric"
+            placeHolder="E.g. Patric"
             schema={userFields.firstName}
             error={formError}
             formData={form}
             onChange={this.fieldChangeHandler}
           />
           <FormField
-            placeholder="E.g. Jane"
+            placeHolder="E.g. Jane"
             schema={userFields.lastName}
             error={formError}
             formData={form}
             onChange={this.fieldChangeHandler}
           />
           <FormField
-            placeholder="E.g. patricJ"
+            placeHolder="E.g. patricJ"
             schema={userFields.username}
             error={formError}
             formData={form}
             onChange={this.fieldChangeHandler}
           />
           <FormField
-            placeholder="E.g. patric@gmail.com"
+            placeHolder="E.g. patric@gmail.com"
             schema={userFields.email}
             error={formError}
             formData={form}
@@ -80,25 +79,27 @@ class App extends React.Component<{}, Istate> {
             schema={userFields.address}
             error={formError}
             formData={form}
-            elementType="textarea"
+            multiline={true}
+            rows={4}
             onChange={this.fieldChangeHandler}
           />
           <FormField
-            placeholder="What's your Occupation?"
+            placeHolder="What's your Occupation?"
             schema={userFields.occupation}
             error={formError}
-            data={occupationList}
             formData={form}
             onChange={this.fieldChangeHandler}
           />
           <FormField
-            placeholder="What's your age?"
+            placeHolder="What's your Gender?"
             schema={userFields.gender}
             error={formError}
             formData={form}
             onChange={this.fieldChangeHandler}
           />
-          <Button onClick={this.handleFormSubmit}>Submit</Button>
+          <ButtonContainer>
+            <PrimaryButton onClick={this.handleFormSubmit}>Submit</PrimaryButton>
+          </ButtonContainer>
         </Container>
       </Wrapper>
     );
