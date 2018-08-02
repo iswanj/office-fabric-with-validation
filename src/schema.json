@@ -94,10 +94,6 @@
       "enum": {
         "values": [
           {
-            "key": "0",
-            "text": "None"
-          },
-          {
             "key": "male",
             "text": "Male"
           },

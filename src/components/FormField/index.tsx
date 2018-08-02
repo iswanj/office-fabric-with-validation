@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { ChoiceGroup } from "office-ui-fabric-react/lib/ChoiceGroup";
 import { Dropdown } from "office-ui-fabric-react/lib/Dropdown";
 import { TextField } from "office-ui-fabric-react/lib/TextField";
 
@@ -13,9 +14,8 @@ interface IFormFieldProps {
     required: boolean;
     enum: {
       values: Array<{
-        label: string;
-        value: string;
-        name?: string;
+        text: string;
+        key: string;
       }>;
     };
   };
@@ -54,18 +54,10 @@ export default class FormField extends React.Component<IFormFieldProps> {
     switch (schema.type) {
       case "enum":
         const elementData = options || schema.enum.values || [];
-        return (
-          <ElementName
-            {...restProps}
-            selectedKey={formData[schema.name]}
-            name={schema.name}
-            label={schema.label}
-            errorMessage={error[schema.name]}
-            required={schema.required}
-            options={elementData}
-            onChanged={this.fieldChangeHandler}
-          />
-        );
+        if (elementData.length <= 2) {
+          return this.renderChoiceGroup(elementData);
+        }
+        return this.renderEnumInput(ElementName, elementData);
         break;
       default:
         return (
@@ -83,6 +75,42 @@ export default class FormField extends React.Component<IFormFieldProps> {
     }
   };
 
+  private renderEnumInput(ElementName: any, data: object) {
+    const { schema, elementType, error, formData, options, onChange, ...restProps } = this.props;
+    return (
+      <ElementName
+        {...restProps}
+        selectedKey={formData[schema.name]}
+        name={schema.name}
+        label={schema.label}
+        errorMessage={error[schema.name]}
+        required={schema.required}
+        options={data}
+        onChanged={this.fieldChangeHandler}
+      />
+    );
+  }
+
+  private renderChoiceGroup(
+    data: Array<{
+      text: string;
+      key: string;
+    }>
+  ) {
+    const { schema, elementType, error, formData, options, onChange, ...restProps } = this.props;
+    return (
+      <ChoiceGroup
+        {...restProps}
+        selectedKey={formData[schema.name]}
+        name={schema.name}
+        label={schema.label}
+        required={schema.required}
+        options={data}
+        onChange={this.onChangeChoiceGroup}
+      />
+    );
+  }
+
   private fieldChangeHandler = (value: any) => {
     const { schema, onChange } = this.props;
     let inputFieldValue;
@@ -90,6 +118,15 @@ export default class FormField extends React.Component<IFormFieldProps> {
       inputFieldValue = value.key;
     } else {
       inputFieldValue = value;
+    }
+    onChange(schema.name, inputFieldValue);
+  };
+
+  private onChangeChoiceGroup = (ev: React.FormEvent<HTMLInputElement>, value: any) => {
+    const { schema, onChange } = this.props;
+    let inputFieldValue;
+    if (typeof value === "object") {
+      inputFieldValue = value.key;
     }
     onChange(schema.name, inputFieldValue);
   };
